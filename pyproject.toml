@@ -1,0 +1,25 @@
+[project]
+name = "hw10"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "i.yanchyk",email = "i.yanchyk@steel.mil.ua"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg2 (>=2.9.10,<3.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "alembic (>=1.15.2,<2.0.0)",
+    "asyncpg (>=0.30.0,<0.31.0)",
+    "pydantic[email] (>=2.11.2,<3.0.0)",
+    "uvicorn[standard] (>=0.34.0,<0.35.0)"
+]
+
+[tool.poetry]
+packages = [{include = "hw10", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
