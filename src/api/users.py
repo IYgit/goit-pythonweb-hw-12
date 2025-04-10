@@ -29,7 +29,7 @@ async def update_avatar_user(
     db: AsyncSession = Depends(get_db),
 ):
     avatar_url = UploadFileService(
-        settings.CLD_NAME, settings.CLD_API_KEY, settings.CLD_API_SECRET
+        settings.CLOUDINARY_NAME, settings.CLOUDINARY_API_KEY, settings.CLOUDINARY_API_SECRET
     ).upload_file(file, user.username)
 
     user_service = UserService(db)
