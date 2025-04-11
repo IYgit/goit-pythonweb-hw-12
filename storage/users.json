@@ -1,0 +1,42 @@
+[
+    {
+        "username": "user_1",
+        "email": "user_1@gmail.com",
+        "password": "$2b$12$dz3edSnIBNJC6nfsF/760uuS.wCokz6hcL.J1NgZvF1M1Ia2MVeKO",
+        "id": 1,
+        "avatar": "https://www.gravatar.com/avatar/78dcd7c5134aa1ce1487464ece4bb5e6",
+        "confirmed": "",
+        "created_at": "2025-04-10T16:07:59.091181",
+        "updated_at": "2025-04-10T16:07:59.091181"
+    },
+    {
+        "username": "user_2",
+        "email": "user_2@gmail.com",
+        "password": "$2b$12$05j0NaMottiZVHUUc0WNIeG3qjTgkvtzyLRKuWfufOgW13sgr6khW",
+        "id": 2,
+        "avatar": "https://www.gravatar.com/avatar/82c0feed34f5c01e90a1c309023202cf",
+        "confirmed": "",
+        "created_at": "2025-04-10T16:59:22.585277",
+        "updated_at": "2025-04-10T16:59:22.585277"
+    },
+    {
+        "username": "user_3",
+        "email": "user_3@gmail.com",
+        "password": "$2b$12$GiaEJNfjAugdgl2qyT0q8eAm8VfGZPx46BMlDH7hSndl94H7paz2O",
+        "id": 3,
+        "avatar": "https://www.gravatar.com/avatar/06baa64ad8bfb4068722ab8b23b3dbca",
+        "confirmed": true,
+        "created_at": "2025-04-11T11:40:42.373951",
+        "updated_at": "2025-04-11T11:40:42.373951"
+    },
+    {
+        "username": "user_4",
+        "email": "user_4@gmail.com",
+        "password": "$2b$12$psIqlXXn3l4KAdSmZcZjyekanMXzD6VHEn4yqLIUtfQto4hueg2Ni",
+        "id": 4,
+        "avatar": "https://www.gravatar.com/avatar/5e996f340891879daaea736961ebaa0c",
+        "confirmed": "",
+        "created_at": "2025-04-11T12:39:37.541313",
+        "updated_at": "2025-04-11T12:39:37.541313"
+    }
+]

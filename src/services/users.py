@@ -1,13 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from libgravatar import Gravatar
 
-from src.repository.users import UserRepository
+from src.repository.users_in_file import UserRepository
 from src.schemas import UserCreate
 
 
 class UserService:
     def __init__(self, db: AsyncSession):
-        self.repository = UserRepository(db)
+        self.repository = UserRepository()
 
     async def create_user(self, body: UserCreate):
         avatar = None

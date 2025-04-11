@@ -6,7 +6,7 @@ from src.schemas import ContactModel, ContactResponse
 
 import os
 
-DATA_FILE = os.path.join('storage', 'data.json')
+DATA_FILE = os.path.join('storage', 'contacts.json')
 
 class ContactRepository:
     def __init__(self):
