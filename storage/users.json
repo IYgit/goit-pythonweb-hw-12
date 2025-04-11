@@ -24,19 +24,9 @@
         "email": "user_3@gmail.com",
         "password": "$2b$12$GiaEJNfjAugdgl2qyT0q8eAm8VfGZPx46BMlDH7hSndl94H7paz2O",
         "id": 3,
-        "avatar": "https://www.gravatar.com/avatar/06baa64ad8bfb4068722ab8b23b3dbca",
+        "avatar": "https://res.cloudinary.com/dnrcmr1wr/image/upload/c_fill,h_250,w_250/v1744377418/RestApp/user_3",
         "confirmed": true,
         "created_at": "2025-04-11T11:40:42.373951",
         "updated_at": "2025-04-11T11:40:42.373951"
-    },
-    {
-        "username": "user_4",
-        "email": "user_4@gmail.com",
-        "password": "$2b$12$psIqlXXn3l4KAdSmZcZjyekanMXzD6VHEn4yqLIUtfQto4hueg2Ni",
-        "id": 4,
-        "avatar": "https://www.gravatar.com/avatar/5e996f340891879daaea736961ebaa0c",
-        "confirmed": "",
-        "created_at": "2025-04-11T12:39:37.541313",
-        "updated_at": "2025-04-11T12:39:37.541313"
     }
 ]

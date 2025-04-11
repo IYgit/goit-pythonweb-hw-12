@@ -30,9 +30,9 @@ async def update_avatar_user(
 ):
     avatar_url = UploadFileService(
         settings.CLOUDINARY_NAME, settings.CLOUDINARY_API_KEY, settings.CLOUDINARY_API_SECRET
-    ).upload_file(file, user.username)
+    ).upload_file(file, user["username"])
 
     user_service = UserService(db)
-    user = await user_service.update_avatar_url(user.email, avatar_url)
+    user = await user_service.update_avatar_url(user["email"], avatar_url)
 
     return user
