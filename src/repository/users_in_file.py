@@ -2,7 +2,6 @@ import json
 import os
 from typing import List, Optional
 from datetime import datetime
-from src.schemas import UserCreate, Token, User, RequestEmail
 from passlib.context import CryptContext
 
 DATA_FILE = os.path.join('storage', 'users.json')
