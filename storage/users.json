@@ -21,12 +21,12 @@
     },
     {
         "username": "user_3",
-        "email": "user_3@gmail.com",
-        "password": "$2b$12$GiaEJNfjAugdgl2qyT0q8eAm8VfGZPx46BMlDH7hSndl94H7paz2O",
+        "email": "novemb75@gmail.com",
+        "password": "$2b$12$Ppsuv35F7r5gEng4msCn/u0kUwwqaPuIxGxfDCfOInZoI/YSq6tbC",
         "id": 3,
-        "avatar": "https://res.cloudinary.com/dnrcmr1wr/image/upload/c_fill,h_250,w_250/v1744377418/RestApp/user_3",
+        "avatar": "https://www.gravatar.com/avatar/8bd2bc2c676ab2c8d9e3e3af37043f78",
         "confirmed": true,
-        "created_at": "2025-04-11T11:40:42.373951",
-        "updated_at": "2025-04-11T11:40:42.373951"
+        "created_at": "2025-04-15T17:21:29.038354",
+        "updated_at": "2025-04-15T17:21:29.038354"
     }
 ]

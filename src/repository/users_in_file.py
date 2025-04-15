@@ -3,6 +3,7 @@ import os
 from typing import List, Optional
 from datetime import datetime
 from passlib.context import CryptContext
+from src.database.models import User
 
 DATA_FILE = os.path.join('storage', 'users.json')
 
@@ -70,3 +71,35 @@ class UserRepository:
             user['avatar'] = url
             self._save_data(users)
         return user
+
+    async def reset_password(self, user_id: int, password: str) -> Optional[User]:
+        """
+        Скинути пароль користувача, оновити дані у файлі users.json та повернути
+        оновлений об'єкт типу User.
+
+        :param user_id: Ідентифікатор користувача, для якого виконується скидання пароля.
+        :param password: Новий пароль у відкритому вигляді (буде захешовано перед збереженням).
+        :return: Оновлений об'єкт User або None, якщо користувача не знайдено.
+        """
+        # Завантаження поточних даних користувачів
+        users = self._load_data()
+        user_dict = None
+
+        # Пошук користувача за його ідентифікатором та оновлення хешованого пароля
+        for item in users:
+            if item.get('id') == user_id:
+                # Захешовуємо новий пароль
+                item['password'] = self.hash_password(password)
+                user_dict = item
+                break
+
+        # Збереження оновлених даних у файлі, якщо користувача було знайдено
+        if user_dict:
+            self._save_data(users)
+            # Створення екземпляра User із оновлених даних
+            updated_user = User(**user_dict)
+            return updated_user
+
+        return None
+
+

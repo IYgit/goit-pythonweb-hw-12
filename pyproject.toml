@@ -1,9 +1,9 @@
 [project]
-name = "hw10"
+name = "goit-pythonweb-hw-12"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "i.yanchyk",email = "i.yanchyk@steel.mil.ua"}
+    {name = "IYgit",email = "novemb75@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"

@@ -40,3 +40,15 @@ class Token(BaseModel):
 class RequestEmail(BaseModel):
     email: EmailStr
 
+class ResetPassword(BaseModel):
+    """
+    Модель для скидання паролю.
+
+    Атрибути:
+        email: електронна пошта користувача
+        password: новий пароль користувача (мінімум 4 символи, максимум 128 символів)
+    """
+
+    email: str
+    password: str = Field(min_length=4, max_length=128, description="Новий пароль")
+

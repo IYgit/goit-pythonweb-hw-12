@@ -4,6 +4,8 @@ from libgravatar import Gravatar
 from src.repository.users_in_file import UserRepository
 from src.schemas import UserCreate
 
+from src.database.models import User
+
 
 class UserService:
     def __init__(self, db: AsyncSession):
@@ -33,3 +35,17 @@ class UserService:
 
     async def update_avatar_url(self, email: str, url: str):
         return await self.repository.update_avatar_url(email, url)
+
+    async def reset_password(self, user_id: int, password: str) -> User:
+        """
+        Скидає пароль користувача.
+
+        Аргументи:
+            user_id: ID користувача.
+            password: Новий пароль для користувача.
+
+        Повертає:
+            User: Оновлений користувач.
+        """
+        # Скидання пароля користувача
+        return await self.repository.reset_password(user_id, password)
