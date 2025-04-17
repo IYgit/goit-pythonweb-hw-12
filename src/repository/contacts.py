@@ -14,6 +14,9 @@ class ContactRepository:
     async def get_contacts(
         self, name: str, surname: str, email: str, skip: int, limit: int
     ) -> List[Contact]:
+        """
+        Отримати список контактів користувача з можливістю фільтрації.
+        """
         stmt = (
             select(Contact)
             .where(Contact.name.contains(name))
@@ -26,11 +29,17 @@ class ContactRepository:
         return list(contacts.scalars().all())
 
     async def get_contact_by_id(self, contact_id: int) -> Contact | None:
+        """
+        Отримати контакт за ID, прив'язаний до конкретного користувача.
+        """
         stmt = select(Contact).filter_by(id=contact_id)
         contact = await self.db.execute(stmt)
         return contact.scalar_one_or_none()
 
     async def create_contact(self, body: ContactModel) -> Contact:
+        """
+        Створити новий контакт для користувача.
+        """
         contact = Contact(**body.model_dump(exclude_unset=True))
         self.db.add(contact)
         await self.db.commit()
@@ -40,6 +49,9 @@ class ContactRepository:
     async def update_contact(
         self, contact_id: int, body: ContactModel
     ) -> Contact | None:
+        """
+        Оновити існуючий контакт користувача.
+        """
         contact = await self.get_contact_by_id(contact_id)
         if contact:
             for key, value in body.dict(exclude_unset=True).items():
@@ -49,6 +61,9 @@ class ContactRepository:
         return contact
 
     async def remove_contact(self, contact_id: int) -> Contact | None:
+        """
+        Видалити контакт користувача за ID.
+        """
         contact = await self.get_contact_by_id(contact_id)
         if contact:
             await self.db.delete(contact)
@@ -56,6 +71,9 @@ class ContactRepository:
         return contact
 
     async def is_contact_exists(self, email: str, phone: str) -> bool:
+        """
+        Перевірити, чи існує контакт з вказаним email або телефоном для користувача.
+        """
         query = select(Contact).where(
             or_(Contact.email == email, Contact.phone == phone)
         )
@@ -63,6 +81,9 @@ class ContactRepository:
         return result.scalars().first() is not None
 
     async def get_upcoming_birthdays(self, days: int) -> list[Contact]:
+        """
+        Отримати список контактів з днями народження, які наближаються.
+        """
         today = date.today()
         end_date = today + timedelta(days=days)
 

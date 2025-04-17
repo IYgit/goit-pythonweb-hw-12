@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.conf.config import settings
 from src.database.db import get_db
 from src.schemas import User
-from src.services.auth import get_current_user
+from src.services.auth import get_current_user, get_current_admin_user
 from src.services.upload_file import UploadFileService
 from src.services.users import UserService
 
@@ -19,15 +19,39 @@ limiter = Limiter(key_func=get_remote_address)
 )
 @limiter.limit("10 per minute")
 async def me(request: Request, user: User = Depends(get_current_user)):
+    """
+    Отримання інформації про поточного авторизованого користувача.
+
+    Обмеження:
+    - Не більше 10 запитів на хвилину.
+
+    Параметри:
+    - request (Request): HTTP-запит для відстеження ліміту.
+    - user (User): Поточний авторизований користувач.
+
+    Повертає:
+    - User: Дані користувача.
+    """
     return user
 
 
 @router.patch("/avatar", response_model=User)
 async def update_avatar_user(
     file: UploadFile = File(),
-    user: User = Depends(get_current_user),
+    user: User = Depends(get_current_admin_user),
     db: AsyncSession = Depends(get_db),
 ):
+    """
+    Оновлення аватара для поточного адміністратора.
+
+    Параметри:
+    - file (UploadFile): Завантажений файл аватара.
+    - user (User): Поточний авторизований адміністратор.
+    - db (AsyncSession): Сесія бази даних.
+
+    Повертає:
+    - User: Оновлені дані користувача з новим URL аватара.
+    """
     avatar_url = UploadFileService(
         settings.CLOUDINARY_NAME, settings.CLOUDINARY_API_KEY, settings.CLOUDINARY_API_SECRET
     ).upload_file(file, user["username"])

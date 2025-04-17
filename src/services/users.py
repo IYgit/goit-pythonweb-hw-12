@@ -9,9 +9,28 @@ from src.database.models import User
 
 class UserService:
     def __init__(self, db: AsyncSession):
+        """
+        Ініціалізація сервісу для роботи з користувачами.
+
+        Аргументи:
+            db: Об'єкт асинхронної сесії бази даних.
+        """
         self.repository = UserRepository()
 
+
     async def create_user(self, body: UserCreate):
+        """
+        Створює нового користувача.
+
+        Створює аватар для користувача за допомогою Gravatar, а потім створює
+        користувача в базі даних.
+
+        Аргументи:
+            body: Дані користувача для створення нового запису.
+
+        Повертає:
+            User: Створений користувач.
+        """
         avatar = None
         try:
             g = Gravatar(body.email)
@@ -21,20 +40,72 @@ class UserService:
 
         return await self.repository.create_user(body, avatar)
 
+
     async def get_user_by_id(self, user_id: int):
+        """
+        Отримує користувача за ID.
+
+        Аргументи:
+            user_id: ID користувача.
+
+        Повертає:
+            User або None: Знайдений користувач або None, якщо користувача не знайдено.
+        """
         return await self.repository.get_user_by_id(user_id)
 
+
     async def get_user_by_username(self, username: str):
+        """
+        Отримує користувача за username.
+
+        Аргументи:
+            username: Ім'я користувача.
+
+        Повертає:
+            User або None: Знайдений користувач або None, якщо користувача не знайдено.
+        """
         return await self.repository.get_user_by_username(username)
 
+
     async def get_user_by_email(self, email: str):
+        """
+        Отримує користувача за email.
+
+        Аргументи:
+            email: Адреса електронної пошти користувача.
+
+        Повертає:
+            User або None: Знайдений користувач або None, якщо користувача не знайдено.
+        """
         return await self.repository.get_user_by_email(email)
 
+
     async def confirmed_email(self, email: str):
+        """
+        Підтверджує email користувача.
+
+        Аргументи:
+            email: Адреса електронної пошти користувача.
+
+        Повертає:
+            None
+        """
         return await self.repository.confirmed_email(email)
 
+
     async def update_avatar_url(self, email: str, url: str):
+        """
+        Оновлює URL аватара користувача.
+
+        Аргументи:
+            email: Адреса електронної пошти користувача.
+            url: Новий URL для аватара.
+
+        Повертає:
+            User: Оновлений користувач.
+        """
         return await self.repository.update_avatar_url(email, url)
+
 
     async def reset_password(self, user_id: int, password: str) -> User:
         """
@@ -49,3 +120,6 @@ class UserService:
         """
         # Скидання пароля користувача
         return await self.repository.reset_password(user_id, password)
+
+    async def get_user_from_db(self, username, db):
+        pass

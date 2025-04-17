@@ -9,6 +9,21 @@ router = APIRouter(tags=["utils"])
 
 @router.get("/healthchecker")
 async def healthchecker(db: AsyncSession = Depends(get_db)):
+    """
+    Перевірка здоров'я сервісу та підключення до бази даних.
+
+    Цей ендпоінт виконує простий запит до бази даних, щоб перевірити, чи налаштована база даних коректно,
+    і чи може додаток успішно до неї підключатися.
+
+    Параметри:
+    - db (AsyncSession): Асинхронна сесія бази даних, отримана через залежність.
+
+    Повертає:
+    - dict: Повідомлення про стан сервісу.
+
+    Випадки помилок:
+    - 500 INTERNAL_SERVER_ERROR: Якщо база даних не налаштована або виникає помилка під час підключення.
+    """
     try:
         result = await db.execute(text("SELECT 1"))
         result = result.scalar_one_or_none()

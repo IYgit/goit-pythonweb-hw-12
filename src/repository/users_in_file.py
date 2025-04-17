@@ -30,26 +30,39 @@ class UserRepository:
         return self.pwd_context.hash(password)
 
     async def get_user_by_id(self, user_id: int) -> Optional[dict]:
+        """
+        Отримати користувача за його ID.
+        """
         users = self._load_data()
         user = next((user for user in users if user['id'] == user_id), None)
         return user
 
     async def get_user_by_username(self, username: str) -> Optional[dict]:
+        """
+        Отримати користувача за його ім'ям користувача.
+        """
         users = self._load_data()
         user = next((user for user in users if user['username'] == username), None)
         return user
 
     async def get_user_by_email(self, email: str) -> Optional[dict]:
+        """
+        Отримати користувача за його email.
+        """
         users = self._load_data()
         user = next((user for user in users if user['email'] == email), None)
         return user
 
     async def create_user(self, user_data: dict, avatar: str = None) -> dict:
+        """
+       Створити нового користувача.
+       """
         users = self._load_data()
         user_data = user_data.dict()  # конвертування Pydantic моделі у словник, якщо це ще не було зроблено
         user_data['id'] = max((user['id'] for user in users), default=0) + 1
         user_data['avatar'] = avatar
         user_data['confirmed'] = ''
+        user_data['role'] = 'user'
         user_data['created_at'] = datetime.now().isoformat()
         user_data['updated_at'] = datetime.now().isoformat()
         users.append(user_data)
@@ -57,6 +70,9 @@ class UserRepository:
         return user_data
 
     async def confirmed_email(self, email: str) -> None:
+        """
+        Підтвердити email користувача.
+        """
         users = self._load_data()
         for user in users:
             if user['email'] == email:
@@ -65,6 +81,9 @@ class UserRepository:
         self._save_data(users)
 
     async def update_avatar_url(self, email: str, url: str) -> Optional[dict]:
+        """
+        Оновити URL аватару користувача.
+        """
         users = self._load_data()
         user = next((user for user in users if user['email'] == email), None)
         if user:

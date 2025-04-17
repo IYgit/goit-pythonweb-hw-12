@@ -4,8 +4,9 @@
         "email": "user_1@gmail.com",
         "password": "$2b$12$dz3edSnIBNJC6nfsF/760uuS.wCokz6hcL.J1NgZvF1M1Ia2MVeKO",
         "id": 1,
-        "avatar": "https://www.gravatar.com/avatar/78dcd7c5134aa1ce1487464ece4bb5e6",
-        "confirmed": "",
+        "avatar": "https://res.cloudinary.com/dnrcmr1wr/image/upload/c_fill,h_250,w_250/v1744893777/RestApp/user_1",
+        "confirmed": true,
+        "role": "admin",
         "created_at": "2025-04-10T16:07:59.091181",
         "updated_at": "2025-04-10T16:07:59.091181"
     },
@@ -15,18 +16,20 @@
         "password": "$2b$12$05j0NaMottiZVHUUc0WNIeG3qjTgkvtzyLRKuWfufOgW13sgr6khW",
         "id": 2,
         "avatar": "https://www.gravatar.com/avatar/82c0feed34f5c01e90a1c309023202cf",
-        "confirmed": "",
+        "confirmed": true,
+        "role": "user",
         "created_at": "2025-04-10T16:59:22.585277",
         "updated_at": "2025-04-10T16:59:22.585277"
     },
     {
         "username": "user_3",
         "email": "novemb75@gmail.com",
-        "password": "$2b$12$Ppsuv35F7r5gEng4msCn/u0kUwwqaPuIxGxfDCfOInZoI/YSq6tbC",
+        "password": "$2b$12$Vopi31EV95yw6KDs6wmetekm8Dtspsmp3wDwYdGiB86Uw7OGCzhG6",
         "id": 3,
         "avatar": "https://www.gravatar.com/avatar/8bd2bc2c676ab2c8d9e3e3af37043f78",
         "confirmed": true,
-        "created_at": "2025-04-15T17:21:29.038354",
-        "updated_at": "2025-04-15T17:21:29.038354"
+        "role": "user",
+        "created_at": "2025-04-17T15:25:12.202586",
+        "updated_at": "2025-04-17T15:25:12.202586"
     }
 ]

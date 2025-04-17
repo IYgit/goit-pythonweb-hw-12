@@ -35,6 +35,9 @@ class ContactRepository:
     async def get_contacts(
             self, name: str, surname: str, email: str, skip: int, limit: int
     ) -> List[ContactModel]:
+        """
+        Отримати список контактів користувача з можливістю фільтрації.
+        """
         data = self._load_data()
         filtered = [
             ContactResponse.parse_obj(item) for item in data
@@ -43,11 +46,17 @@ class ContactRepository:
         return filtered[skip:skip + limit]
 
     async def get_contact_by_id(self, contact_id: int) -> Optional[ContactModel]:
+        """
+        Отримати контакт за ID, прив'язаний до конкретного користувача.
+        """
         data = self._load_data()
         contact = next((item for item in data if item['id'] == contact_id), None)
         return ContactResponse.parse_obj(contact) if contact else None
 
     async def create_contact(self, body: ContactModel) -> ContactModel:
+        """
+        Створити новий контакт для користувача.
+        """
         data = self._load_data()
         contact = body.dict()
         contact['id'] = max(item['id'] for item in data) + 1 if data else 1
@@ -60,6 +69,9 @@ class ContactRepository:
     async def update_contact(
             self, contact_id: int, body: ContactModel
     ) -> Optional[ContactModel]:
+        """
+        Оновити існуючий контакт користувача.
+        """
         data = self._load_data()
         contact = next((item for item in data if item['id'] == contact_id), None)
         if contact:
@@ -70,6 +82,9 @@ class ContactRepository:
         return None
 
     async def remove_contact(self, contact_id: int) -> Optional[ContactModel]:
+        """
+        Видалити контакт користувача за ID.
+        """
         data = self._load_data()
         new_data = [item for item in data if item['id'] != contact_id]
         if len(data) != len(new_data):
@@ -78,10 +93,16 @@ class ContactRepository:
         return None
 
     async def is_contact_exists(self, email: str, phone: str) -> bool:
+        """
+        Перевірити, чи існує контакт з вказаним email або телефоном для користувача.
+        """
         data = self._load_data()
         return any(item['email'] == email or item['phone'] == phone for item in data)
 
     async def get_upcoming_birthdays(self, days: int) -> list[ContactModel]:
+        """
+        Отримати список контактів з днями народження, які наближаються.
+        """
         today = date.today()
         end_date = today + timedelta(days=days)
         data = self._load_data()
