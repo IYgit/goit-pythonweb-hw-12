@@ -1,0 +1,9 @@
+ REST API Config
+===============
+
+config.py
+---------
+.. automodule:: src.conf.config
+  :members:
+  :undoc-members:
+  :show-inheritance:

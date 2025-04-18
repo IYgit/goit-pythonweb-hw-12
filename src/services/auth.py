@@ -90,8 +90,6 @@ async def get_current_user(
             raise credentials_exception
     except JWTError as e:
         raise credentials_exception
-    user_service = UserService(db)
-    # user = await user_service.get_user_by_username(username)
     user = await get_user_from_db(username, db)
     if user is None:
         raise credentials_exception
