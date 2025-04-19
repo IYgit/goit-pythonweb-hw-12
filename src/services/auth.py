@@ -4,8 +4,8 @@ from fastapi import Depends, HTTPException, status
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 
-from database.models import UserRole
-from schemas import User
+from src.database.models import UserRole
+from src.schemas import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from jose import JWTError, jwt
 from aiocache import cached

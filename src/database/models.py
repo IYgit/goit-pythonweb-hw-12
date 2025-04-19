@@ -84,3 +84,4 @@ class User(Base):
     updated_at = Column(DateTime, default=func.now())
     avatar = Column(String(255), nullable=True)
     confirmed = Column(Boolean, default=False)
+    role = Column(String(20), default=UserRole.USER, nullable=False)
