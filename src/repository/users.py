@@ -39,7 +39,7 @@ class UserRepository:
        """
         user = User(
             **body.model_dump(exclude_unset=True, exclude={"password"}),
-            hashed_password=body.password,
+            password=body.password,
             avatar=avatar
         )
         self.db.add(user)
