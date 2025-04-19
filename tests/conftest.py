@@ -19,6 +19,9 @@ from src.database.db import get_db
 from src.schemas import ContactModel
 from src.services.auth import create_access_token, Hash
 
+from src.repository.users import UserRepository as DBUserRepository # об'єкт, який треба підставити замість реалізованого UserRepository
+import src.services.users as svc_mod  # модуль, в якому треба підставити об'єкт DBUserRepository
+
 from main import app
 # … решта фікстур …
 
@@ -124,19 +127,32 @@ def init_models_wrap():
 
 
 @pytest.fixture(scope="module")
-def client():
+def db_session():
+    session = TestingSessionLocal()     # повертає AsyncSession, але створюється без await
+    yield session
+    session.rollback()
+    session.close()
 
-    async def override_get_db():
-        async with TestingSessionLocal() as session:
-            try:
-                yield session
-            except Exception as err:
-                await session.rollback()
-                raise
+
+
+@pytest.fixture(scope="module")
+def client(db_session):                    # db_session — теж мусить бути синхронною
+    def override_get_db():                 # Тепер — звичайна деф‑функція, не async
+        try:
+            yield db_session               # і вона повертає реальний об'єкт Session
+        finally:
+            pass
 
     app.dependency_overrides[get_db] = override_get_db
-
     yield TestClient(app)
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def patch_user_repo(monkeypatch, db_session):
+    def get_db_user_repository(*args, **kwargs):
+        return DBUserRepository(db_session)
+    monkeypatch.setattr(svc_mod, "UserRepository", get_db_user_repository)
 
 
 @pytest.fixture
@@ -163,7 +179,9 @@ def event_loop():
     loop.close()
 
 
+
 @pytest_asyncio.fixture()
 async def get_token():
     token = await create_access_token(data={"sub": test_user["username"]})
     return token
+
