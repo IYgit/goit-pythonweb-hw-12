@@ -3,15 +3,18 @@ from fastapi import APIRouter, HTTPException, Depends, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.db import get_db
-from src.schemas import ContactModel, ContactResponse
+from src.schemas import ContactModel, ContactResponse, User
+from src.services.auth import get_current_user
 from src.services.contacts import ContactService
 
 router = APIRouter(prefix="/contacts", tags=["contacts"])
 
 
-@router.get("/birthdays", response_model=list[ContactResponse])
+@router.get("/birthdays", response_model=List[ContactResponse])
 async def get_upcoming_birthdays(
-    days: int = Query(default=7, ge=1), db: AsyncSession = Depends(get_db)
+    days: int = Query(default=7, ge=1),
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
 ):
     """
     Отримання списку контактів, які мають день народження протягом вказаної кількості днів.
@@ -36,6 +39,7 @@ async def get_contacts(
     skip: int = 0,
     limit: int = 100,
     db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user)
 ):
     """
     Пошук контактів за фільтрами.
@@ -58,7 +62,7 @@ async def get_contacts(
 
 
 @router.get("/{contact_id}", response_model=ContactResponse)
-async def get_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
+async def get_contact(contact_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)):
     """
     Отримання інформації про контакт за його ID.
 
@@ -84,7 +88,7 @@ async def get_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/", response_model=ContactResponse, status_code=status.HTTP_201_CREATED)
-async def create_contact(body: ContactModel, db: AsyncSession = Depends(get_db)):
+async def create_contact(body: ContactModel, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)):
     """
     Створення нового контакту.
 
@@ -102,7 +106,7 @@ async def create_contact(body: ContactModel, db: AsyncSession = Depends(get_db))
 
 @router.put("/{contact_id}", response_model=ContactResponse)
 async def update_contact(
-    body: ContactModel, contact_id: int, db: AsyncSession = Depends(get_db)
+    body: ContactModel, contact_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)
 ):
     """
     Оновлення даних контакту за його ID.
@@ -129,7 +133,7 @@ async def update_contact(
 
 
 @router.delete("/{contact_id}", response_model=ContactResponse)
-async def remove_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
+async def remove_contact(contact_id: int, db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)):
     """
     Видалення контакту за його ID.
 

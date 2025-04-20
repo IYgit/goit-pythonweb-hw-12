@@ -65,7 +65,8 @@ async def test_get_upcoming_birthdays(client, monkeypatch, auth_headers):
     assert response.status_code == 200
     assert len(response.json()) == len(contacts)
     assert response.json()[0]["name"] == contacts[0]["name"]
-    mock_get_upcoming_birthdays.assert_called_once_with(7, user_data)
+    mock_get_upcoming_birthdays.assert_called_once_with(7)
+
 
 
 @pytest.mark.asyncio
@@ -77,13 +78,14 @@ async def test_get_upcoming_birthdays_unauthenticated(client, monkeypatch):
         )
     )
     monkeypatch.setattr(
-        "src.services.auth_service.get_current_user", mock_get_current_user
+        "src.services.auth.get_current_user", mock_get_current_user
     )
 
     response = client.get("/api/contacts/birthdays?days=7")
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"
+
 
 
 @pytest.mark.asyncio
@@ -104,7 +106,7 @@ async def test_get_contacts_no_filters(client, monkeypatch, auth_headers):
     assert response.status_code == 200
     assert len(response.json()) == len(contacts)
     assert response.json()[0]["email"] == contacts[0]["email"]
-    mock_get_contacts.assert_called_once_with("", "", "", 0, 100, user_data)
+    mock_get_contacts.assert_called_once_with("", "", "", 0, 100)
 
 
 @pytest.mark.asyncio
@@ -125,7 +127,7 @@ async def test_get_contacts_with_filters(client, monkeypatch, auth_headers):
     assert response.status_code == 200
     assert len(response.json()) == len(filtered_contacts)
     assert response.json()[0]["name"] == "Evan"
-    mock_get_contacts.assert_called_once_with("Evan", "Jedi", "", 0, 100, user_data)
+    mock_get_contacts.assert_called_once_with("Evan", "Jedi", "", 0, 100)
 
 
 @pytest.mark.asyncio
@@ -157,7 +159,7 @@ async def test_get_contacts_pagination(client, monkeypatch, auth_headers):
     assert response.status_code == 200
     assert len(response.json()) == len(paginated_contacts)
     assert response.json()[0]["id"] == 3
-    mock_get_contacts.assert_called_once_with("", "", "", 2, 1, user_data)
+    mock_get_contacts.assert_called_once_with("", "", "", 2, 1)
 
 
 @pytest.mark.asyncio
@@ -173,7 +175,7 @@ async def test_get_contacts_unauthenticated(client, monkeypatch):
     response = client.get("/api/contacts/")
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"
 
 
 @pytest.mark.asyncio
@@ -195,7 +197,7 @@ async def test_get_contact_success(client, monkeypatch, auth_headers):
     assert response.status_code == 200
     assert response.json()["id"] == contact["id"]
     assert response.json()["name"] == contact["name"]
-    mock_get_contact.assert_called_once_with(1, user_data)
+    mock_get_contact.assert_called_once_with(1)
 
 
 @pytest.mark.asyncio
@@ -213,8 +215,8 @@ async def test_get_contact_not_found(client, monkeypatch, auth_headers):
     response = client.get("/api/contacts/777", headers=auth_headers)
 
     assert response.status_code == 404
-    assert response.json()["detail"] == "Контакт не знайдено"
-    mock_get_contact.assert_called_once_with(777, user_data)
+    assert response.json()["detail"] == "Contact not found"
+    mock_get_contact.assert_called_once_with(777)
 
 
 @pytest.mark.asyncio
@@ -230,7 +232,7 @@ async def test_get_contact_unauthenticated(client, monkeypatch):
     response = client.get("/api/contacts/1")
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"
 
 
 @pytest.mark.asyncio
@@ -255,7 +257,7 @@ async def test_create_contact_success(client, monkeypatch, auth_headers):
     assert response.status_code == 201
     assert response.json()["id"] == new_contact["id"]
     assert response.json()["name"] == new_contact["name"]
-    mock_create_contact.assert_called_once_with(expected_contact, user_data)
+    mock_create_contact.assert_called_once_with(expected_contact)
 
 
 @pytest.mark.asyncio
@@ -288,7 +290,7 @@ async def test_create_contact_unauthenticated(client, monkeypatch):
     response = client.post("/api/contacts/", json=payload)
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"
 
 
 @pytest.mark.asyncio
@@ -330,7 +332,7 @@ async def test_update_contact_success(client, monkeypatch, auth_headers):
     assert response.json()["id"] == updated_contact["id"]
     assert response.json()["name"] == updated_contact["name"]
     assert response.json()["surname"] == updated_contact["surname"]
-    mock_update_contact.assert_called_once_with(contact_id, expected_contact, user_data)
+    mock_update_contact.assert_called_once_with(contact_id, expected_contact)
 
 
 @pytest.mark.asyncio
@@ -359,8 +361,8 @@ async def test_update_contact_not_found(client, monkeypatch, auth_headers):
     expected_contact = ContactModel(**payload)
 
     assert response.status_code == 404
-    assert response.json()["detail"] == "Контакт не знайдено"
-    mock_update_contact.assert_called_once_with(777, expected_contact, user_data)
+    assert response.json()["detail"] == "Contact not found"
+    mock_update_contact.assert_called_once_with(777, expected_contact)
 
 
 @pytest.mark.asyncio
@@ -393,7 +395,7 @@ async def test_update_contact_unauthenticated(client, monkeypatch):
     response = client.put("/api/contacts/1", json={})
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"
 
 
 @pytest.mark.asyncio
@@ -416,7 +418,7 @@ async def test_delete_contact_success(client, monkeypatch, auth_headers):
 
     assert response.status_code == 200
     assert response.json() == contacts[0]
-    mock_delete_contact.assert_called_once_with(contact_id, user_data)
+    mock_delete_contact.assert_called_once_with(contact_id)
 
 
 @pytest.mark.asyncio
@@ -438,8 +440,8 @@ async def test_delete_contact_not_found(client, monkeypatch, auth_headers):
     response = client.delete(f"/api/contacts/{contact_id}", headers=auth_headers)
 
     assert response.status_code == 404
-    assert response.json()["detail"] == "Контакт не знайдено"
-    mock_delete_contact.assert_called_once_with(contact_id, user_data)
+    assert response.json()["detail"] == "Contact not found"
+    mock_delete_contact.assert_called_once_with(contact_id)
 
 
 @pytest.mark.asyncio
@@ -457,4 +459,4 @@ async def test_delete_contact_unauthenticated(client, monkeypatch):
     response = client.delete(f"/api/contacts/{contact_id}")
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"

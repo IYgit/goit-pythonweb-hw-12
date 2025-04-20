@@ -22,6 +22,9 @@ from src.services.auth import create_access_token, Hash
 from src.repository.users import UserRepository as DBUserRepository # об'єкт, який треба підставити замість реалізованого UserRepository
 import src.services.users as svc_mod  # модуль, в якому треба підставити об'єкт DBUserRepository
 
+from src.repository.contacts import ContactRepository as DBContactRepository # об'єкт, який треба підставити замість реалізованого UserRepository
+import src.services.contacts as contacts_mod  # модуль, в якому треба підставити об'єкт DBUserRepository
+
 from main import app
 # … решта фікстур …
 
@@ -153,6 +156,13 @@ def patch_user_repo(monkeypatch, db_session):
     def get_db_user_repository(*args, **kwargs):
         return DBUserRepository(db_session)
     monkeypatch.setattr(svc_mod, "UserRepository", get_db_user_repository)
+
+
+@pytest.fixture(autouse=True)
+def patch_contacts_repo(monkeypatch, db_session):
+    def get_db_contacts_repository(*args, **kwargs):
+        return DBContactRepository(db_session)
+    monkeypatch.setattr(contacts_mod, "ContactRepository", get_db_contacts_repository)
 
 
 @pytest.fixture
