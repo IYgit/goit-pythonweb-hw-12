@@ -60,7 +60,6 @@ async def test_get_contacts(contact_repository, mock_session, user, contact):
     contacts = await contact_repository.get_contacts(
         skip=0,
         limit=10,
-        user=user,
         name="",
         surname="",
         email="",
