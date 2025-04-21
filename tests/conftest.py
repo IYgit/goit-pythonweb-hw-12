@@ -19,9 +19,9 @@ from src.database.db import get_db
 from src.schemas import ContactModel
 from src.services.auth import create_access_token, Hash
 
+# Підставляємо репозиторії, які працюють з базою даних
 from src.repository.users import UserRepository as DBUserRepository # об'єкт, який треба підставити замість реалізованого UserRepository
 import src.services.users as svc_mod  # модуль, в якому треба підставити об'єкт DBUserRepository
-
 from src.repository.contacts import ContactRepository as DBContactRepository # об'єкт, який треба підставити замість реалізованого UserRepository
 import src.services.contacts as contacts_mod  # модуль, в якому треба підставити об'єкт DBUserRepository
 
@@ -150,14 +150,14 @@ def client(db_session):                    # db_session — теж мусить 
     yield TestClient(app)
     app.dependency_overrides.clear()
 
-
+# Підставляємо в тести репозиторій, який працює з базою даних
 @pytest.fixture(autouse=True)
 def patch_user_repo(monkeypatch, db_session):
     def get_db_user_repository(*args, **kwargs):
         return DBUserRepository(db_session)
     monkeypatch.setattr(svc_mod, "UserRepository", get_db_user_repository)
 
-
+# Підставляємо в тести репозиторій, який працює з базою даних
 @pytest.fixture(autouse=True)
 def patch_contacts_repo(monkeypatch, db_session):
     def get_db_contacts_repository(*args, **kwargs):

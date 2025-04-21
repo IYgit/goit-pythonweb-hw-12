@@ -55,4 +55,4 @@ async def test_me_unauthenticated(client, monkeypatch):
     response = client.get("/api/users/me")
 
     assert response.status_code == 401
-    assert response.json()["detail"] == "Не автентифіковано"
+    assert response.json()["detail"] == "Not authenticated"
