@@ -34,6 +34,9 @@ dependencies = [
 packages = [{include = "hw10", from = "src"}]
 
 
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^6.1.1"
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
